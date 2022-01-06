@@ -42,6 +42,11 @@ func configureAPI(api *operations.HelloAPI) http.Handler {
 			return middleware.NotImplemented("operation operations.GetHostname has not yet been implemented")
 		})
 	}
+	if api.GetIPHandler == nil {
+		api.GetIPHandler = operations.GetIPHandlerFunc(func(params operations.GetIPParams) middleware.Responder {
+			return middleware.NotImplemented("operation operations.GetIP has not yet been implemented")
+		})
+	}
 
 	api.PreServerShutdown = func() {}
 
