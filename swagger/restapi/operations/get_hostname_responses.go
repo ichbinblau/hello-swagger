@@ -10,7 +10,7 @@ import (
 
 	"github.com/go-openapi/runtime"
 
-	"github.com/cirocosta/hello-swagger/swagger/models"
+	"github.com/ichbinblau/hello-swagger/swagger/models"
 )
 
 // GetHostnameOKCode is the HTTP code returned for type GetHostnameOK
@@ -30,6 +30,7 @@ type GetHostnameOK struct {
 
 // NewGetHostnameOK creates GetHostnameOK with default headers values
 func NewGetHostnameOK() *GetHostnameOK {
+
 	return &GetHostnameOK{}
 }
 
@@ -52,7 +53,6 @@ func (o *GetHostnameOK) WriteResponse(rw http.ResponseWriter, producer runtime.P
 	if err := producer.Produce(rw, payload); err != nil {
 		panic(err) // let the recovery middleware deal with this
 	}
-
 }
 
 /*GetHostnameDefault error

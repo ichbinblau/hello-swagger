@@ -9,8 +9,12 @@ import (
 	"encoding/json"
 )
 
-// SwaggerJSON embedded version of the swagger document used at generation time
-var SwaggerJSON json.RawMessage
+var (
+	// SwaggerJSON embedded version of the swagger document used at generation time
+	SwaggerJSON json.RawMessage
+	// FlatSwaggerJSON embedded flattened version of the swagger document used at generation time
+	FlatSwaggerJSON json.RawMessage
+)
 
 func init() {
 	SwaggerJSON = json.RawMessage([]byte(`{
@@ -31,6 +35,101 @@ func init() {
             "description": "returns the hostname of the machine",
             "schema": {
               "description": "the hostname of the machine",
+              "type": "string"
+            }
+          },
+          "default": {
+            "description": "error",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          }
+        }
+      }
+    },
+    "/ip": {
+      "get": {
+        "produces": [
+          "text/plain"
+        ],
+        "operationId": "getIP",
+        "responses": {
+          "200": {
+            "description": "returns the ip address of the machine",
+            "schema": {
+              "description": "the ip of the machine",
+              "type": "string"
+            }
+          },
+          "default": {
+            "description": "error",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "error": {
+      "type": "object",
+      "required": [
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}`))
+	FlatSwaggerJSON = json.RawMessage([]byte(`{
+  "swagger": "2.0",
+  "info": {
+    "title": "Hello",
+    "version": "0.0.1"
+  },
+  "paths": {
+    "/hostname": {
+      "get": {
+        "produces": [
+          "text/plain"
+        ],
+        "operationId": "getHostname",
+        "responses": {
+          "200": {
+            "description": "returns the hostname of the machine",
+            "schema": {
+              "description": "the hostname of the machine",
+              "type": "string"
+            }
+          },
+          "default": {
+            "description": "error",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          }
+        }
+      }
+    },
+    "/ip": {
+      "get": {
+        "produces": [
+          "text/plain"
+        ],
+        "operationId": "getIP",
+        "responses": {
+          "200": {
+            "description": "returns the ip address of the machine",
+            "schema": {
+              "description": "the ip of the machine",
               "type": "string"
             }
           },

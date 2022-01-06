@@ -7,15 +7,16 @@ package main
 
 import (
 	"log"
+	"net"
 	"os"
 
 	"github.com/alexflint/go-arg"
-	"github.com/cirocosta/hello-swagger/swagger/models"
-	"github.com/cirocosta/hello-swagger/swagger/restapi"
-	"github.com/cirocosta/hello-swagger/swagger/restapi/operations"
 	"github.com/go-openapi/loads"
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/go-openapi/swag"
+	"github.com/ichbinblau/hello-swagger/swagger/models"
+	"github.com/ichbinblau/hello-swagger/swagger/restapi"
+	"github.com/ichbinblau/hello-swagger/swagger/restapi/operations"
 )
 
 // cliArgs defines the configuration that the CLI
@@ -39,6 +40,20 @@ var (
 		Port: 8080,
 	}
 )
+
+// Get preferred outbound ip of this machine
+func GetOutboundIP() net.IP {
+	conn, err := net.Dial("udp", "8.8.8.8:80")
+	if err != nil {
+		log.Fatalln(err)
+		return nil
+	}
+	defer conn.Close()
+
+	localAddr := conn.LocalAddr().(*net.UDPAddr)
+
+	return localAddr.IP
+}
 
 // getHostnameHandler implements the handler that
 // takes a set of parameters as described in swagger.yml
@@ -65,6 +80,23 @@ func getHostnameHandler(params operations.GetHostnameParams) middleware.Responde
 	return operations.NewGetHostnameOK().WithPayload(payload)
 }
 
+func getIpHandler(params operations.GetIPParams) middleware.Responder {
+	payload := GetOutboundIP()
+
+	if payload == nil {
+		errPayload := &models.Error{
+			Code:    500,
+			Message: swag.String("failed to retrieve hostname"),
+		}
+
+		return operations.
+			NewGetIPDefault(500).
+			WithPayload(errPayload)
+	}
+
+	return operations.NewGetIPOK().WithPayload(payload.String())
+}
+
 // main performs the main routine of the application:
 //	1.	parses the args;
 //	2.	analyzes the declaration of the API
@@ -72,6 +104,7 @@ func getHostnameHandler(params operations.GetHostnameParams) middleware.Responde
 //	4.	listens on the port we want
 func main() {
 	arg.MustParse(args)
+	// fmt.Printf("port=%d\n", args.Port)
 
 	// Load the JSON that corresponds to our swagger.yml
 	// api definition.
@@ -93,10 +126,14 @@ func main() {
 
 	// Configure the server port
 	server.Port = args.Port
+	server.Host = "127.0.0.1"
 
 	// Add our handler implementation
 	api.GetHostnameHandler = operations.GetHostnameHandlerFunc(
 		getHostnameHandler)
+
+	api.GetIPHandler = operations.GetIPHandlerFunc(
+		getIpHandler)
 
 	// Let it run
 	if err := server.Serve(); err != nil {

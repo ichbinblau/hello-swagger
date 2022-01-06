@@ -8,7 +8,7 @@ package operations
 import (
 	"net/http"
 
-	middleware "github.com/go-openapi/runtime/middleware"
+	"github.com/go-openapi/runtime/middleware"
 )
 
 // GetHostnameHandlerFunc turns a function with the right signature into a get hostname handler
@@ -29,7 +29,7 @@ func NewGetHostname(ctx *middleware.Context, handler GetHostnameHandler) *GetHos
 	return &GetHostname{Context: ctx, Handler: handler}
 }
 
-/*GetHostname swagger:route GET /hostname getHostname
+/* GetHostname swagger:route GET /hostname getHostname
 
 GetHostname get hostname API
 
@@ -42,17 +42,15 @@ type GetHostname struct {
 func (o *GetHostname) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	route, rCtx, _ := o.Context.RouteInfo(r)
 	if rCtx != nil {
-		r = rCtx
+		*r = *rCtx
 	}
 	var Params = NewGetHostnameParams()
-
 	if err := o.Context.BindValidRequest(r, route, &Params); err != nil { // bind params
 		o.Context.Respond(rw, r, route.Produces, route, err)
 		return
 	}
 
 	res := o.Handler.Handle(Params) // actually handle the request
-
 	o.Context.Respond(rw, r, route.Produces, route, res)
 
 }

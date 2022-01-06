@@ -28,5 +28,20 @@ paths:
           description: error
           schema:
             $ref: "#/definitions/error"
+  /ip:
+    get:
+      operationId: getIP
+      produces:
+      - text/plain
+      responses:
+        200:
+          description: returns the ip address of the machine
+          schema:
+            description: the ip of the machine
+            type: string
+        default:
+          description: error
+          schema:
+            $ref: "#/definitions/error"
 swagger: "2.0"
 

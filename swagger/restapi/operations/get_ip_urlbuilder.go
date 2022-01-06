@@ -11,15 +11,15 @@ import (
 	golangswaggerpaths "path"
 )
 
-// GetHostnameURL generates an URL for the get hostname operation
-type GetHostnameURL struct {
+// GetIPURL generates an URL for the get IP operation
+type GetIPURL struct {
 	_basePath string
 }
 
 // WithBasePath sets the base path for this url builder, only required when it's different from the
 // base path specified in the swagger spec.
 // When the value of the base path is an empty string
-func (o *GetHostnameURL) WithBasePath(bp string) *GetHostnameURL {
+func (o *GetIPURL) WithBasePath(bp string) *GetIPURL {
 	o.SetBasePath(bp)
 	return o
 }
@@ -27,15 +27,15 @@ func (o *GetHostnameURL) WithBasePath(bp string) *GetHostnameURL {
 // SetBasePath sets the base path for this url builder, only required when it's different from the
 // base path specified in the swagger spec.
 // When the value of the base path is an empty string
-func (o *GetHostnameURL) SetBasePath(bp string) {
+func (o *GetIPURL) SetBasePath(bp string) {
 	o._basePath = bp
 }
 
 // Build a url path and query string
-func (o *GetHostnameURL) Build() (*url.URL, error) {
+func (o *GetIPURL) Build() (*url.URL, error) {
 	var _result url.URL
 
-	var _path = "/hostname"
+	var _path = "/ip"
 
 	_basePath := o._basePath
 	_result.Path = golangswaggerpaths.Join(_basePath, _path)
@@ -44,7 +44,7 @@ func (o *GetHostnameURL) Build() (*url.URL, error) {
 }
 
 // Must is a helper function to panic when the url builder returns an error
-func (o *GetHostnameURL) Must(u *url.URL, err error) *url.URL {
+func (o *GetIPURL) Must(u *url.URL, err error) *url.URL {
 	if err != nil {
 		panic(err)
 	}
@@ -55,17 +55,17 @@ func (o *GetHostnameURL) Must(u *url.URL, err error) *url.URL {
 }
 
 // String returns the string representation of the path with query string
-func (o *GetHostnameURL) String() string {
+func (o *GetIPURL) String() string {
 	return o.Must(o.Build()).String()
 }
 
 // BuildFull builds a full url with scheme, host, path and query string
-func (o *GetHostnameURL) BuildFull(scheme, host string) (*url.URL, error) {
+func (o *GetIPURL) BuildFull(scheme, host string) (*url.URL, error) {
 	if scheme == "" {
-		return nil, errors.New("scheme is required for a full url on GetHostnameURL")
+		return nil, errors.New("scheme is required for a full url on GetIPURL")
 	}
 	if host == "" {
-		return nil, errors.New("host is required for a full url on GetHostnameURL")
+		return nil, errors.New("host is required for a full url on GetIPURL")
 	}
 
 	base, err := o.Build()
@@ -79,6 +79,6 @@ func (o *GetHostnameURL) BuildFull(scheme, host string) (*url.URL, error) {
 }
 
 // StringFull returns the string representation of a complete url
-func (o *GetHostnameURL) StringFull(scheme, host string) string {
+func (o *GetIPURL) StringFull(scheme, host string) string {
 	return o.Must(o.BuildFull(scheme, host)).String()
 }

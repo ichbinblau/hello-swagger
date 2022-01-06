@@ -12,19 +12,19 @@ import (
 	"github.com/go-openapi/runtime/middleware"
 )
 
-// NewGetHostnameParams creates a new GetHostnameParams object
+// NewGetIPParams creates a new GetIPParams object
 //
 // There are no default values defined in the spec.
-func NewGetHostnameParams() GetHostnameParams {
+func NewGetIPParams() GetIPParams {
 
-	return GetHostnameParams{}
+	return GetIPParams{}
 }
 
-// GetHostnameParams contains all the bound params for the get hostname operation
+// GetIPParams contains all the bound params for the get IP operation
 // typically these are obtained from a http.Request
 //
-// swagger:parameters getHostname
-type GetHostnameParams struct {
+// swagger:parameters getIP
+type GetIPParams struct {
 
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
@@ -33,8 +33,8 @@ type GetHostnameParams struct {
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
 // for simple values it will use straight method calls.
 //
-// To ensure default values, the struct must have been initialized with NewGetHostnameParams() beforehand.
-func (o *GetHostnameParams) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
+// To ensure default values, the struct must have been initialized with NewGetIPParams() beforehand.
+func (o *GetIPParams) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
 	var res []error
 
 	o.HTTPRequest = r
